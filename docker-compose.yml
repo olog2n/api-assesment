@@ -1,0 +1,24 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: demo-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - ETHEREUM_RPC_URL=https://ethereum-sepolia-rpc.publicnode.com
+      - ETHEREUM_CHAIN_ID=11155111
+      - SEPOLIA_TEST_CONTRACT=0xf531B8F309Be94191af87605CfBf600D71C2cFe0
+      - PORT=5000
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:noexec,nosuid,size=100m
+    cap_drop:
+      - ALL
